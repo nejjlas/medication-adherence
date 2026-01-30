@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { DoseEvent } from "./DoseHistory";
+import { confirmDoseApi } from "../../api/dosesApi";
 
 type Dose = {
   id: number;
@@ -19,45 +20,73 @@ export function DoseToday(props: { onConfirmed: (e: DoseEvent) => void }) {
   const { onConfirmed } = props;
   const [doses, setDoses] = useState<Dose[]>(initialDoses);
 
-  function confirmDose(id: number) {
+  async function confirmDose(id: number) {
+    console.log("CLICK confirmDose", id);
+
     const now = new Date();
 
-    setDoses((prev) =>
-      prev.map((dose) => {
-        if (dose.id !== id || dose.taken) return dose;
+    const dose = doses.find((d) => d.id === id);
+    if (!dose || dose.taken) return;
 
-        const [h, m] = dose.scheduledAt.split(":").map(Number);
-        const scheduled = new Date();
-        scheduled.setHours(h, m, 0, 0);
+    const [h, m] = dose.scheduledAt.split(":").map(Number);
+    const scheduled = new Date();
+    scheduled.setHours(h, m, 0, 0);
 
-        const delayMs = now.getTime() - scheduled.getTime();
-        const delayMinutes = Math.max(0, Math.round(delayMs / 60000));
+    const delayMs = now.getTime() - scheduled.getTime();
+    const delayMinutes = Math.max(0, Math.round(delayMs / 60000));
+    const confirmedAt = now.toTimeString().slice(0, 5);
 
-        let riskLevel: "normal" | "warning" | "critical" = "normal";
-        if (delayMinutes >= 10) riskLevel = "warning";
-        if (delayMinutes >= 20) riskLevel = "critical";
+    console.log("ABOUT TO FETCH", {
+      medicationName: dose.medicationName,
+      scheduledAt: dose.scheduledAt,
+      confirmedAt,
+      delayMinutes,
+    });
 
-        const confirmedAt = now.toTimeString().slice(0, 5);
+    try {
+      // timeout: ako backend ne odgovori za 5s, prekidamo i dobijemo error
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
 
-        const event = {
-          id: Date.now(),
+      const result = await confirmDoseApi(
+        {
           medicationName: dose.medicationName,
           scheduledAt: dose.scheduledAt,
           confirmedAt,
           delayMinutes,
-          riskLevel,
-        };
+        },
+        controller.signal,
+      );
 
-        onConfirmed(event);
+      clearTimeout(timeoutId);
 
-        return {
-          ...dose,
-          taken: true,
-          delayMinutes,
-          riskLevel,
-        };
-      }),
-    );
+      console.log("API RESULT", result);
+
+      setDoses((prev) =>
+        prev.map((d) =>
+          d.id === id
+            ? {
+                ...d,
+                taken: true,
+                delayMinutes: result.delayMinutes,
+                riskLevel: result.riskLevel,
+              }
+            : d,
+        ),
+      );
+
+      onConfirmed({
+        id: Date.now(),
+        medicationName: result.medicationName,
+        scheduledAt: result.scheduledAt,
+        confirmedAt: result.confirmedAt,
+        delayMinutes: result.delayMinutes,
+        riskLevel: result.riskLevel,
+      });
+    } catch (err) {
+      console.error("API FAILED", err);
+      alert("Backend poziv nije uspio. Pogledaj Console (F12) za detalje.");
+    }
   }
 
   return (
