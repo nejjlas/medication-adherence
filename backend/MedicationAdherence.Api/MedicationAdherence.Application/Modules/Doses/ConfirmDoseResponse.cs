@@ -1,4 +1,4 @@
-﻿namespace MedicationAdherence.Api.Modules.Doses
+﻿namespace MedicationAdherence.Application.Modules.Doses
 {
     public record ConfirmDoseResponse(
         string Message,

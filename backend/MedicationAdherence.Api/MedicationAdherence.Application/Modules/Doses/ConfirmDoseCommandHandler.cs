@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace MedicationAdherence.Api.Modules.Doses
+namespace MedicationAdherence.Application.Modules.Doses
 {
     public class ConfirmDoseCommandHandler : IRequestHandler<ConfirmDoseCommand, ConfirmDoseResponse>
     {

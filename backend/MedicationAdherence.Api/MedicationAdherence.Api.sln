@@ -4,6 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.14.36414.22 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationAdherence.Api", "MedicationAdherence.Api\MedicationAdherence.Api.csproj", "{0CBD66D8-ABFD-479B-8372-389B126DC1FA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{92E3DA35-13B1-47B8-B0B6-066AD0E1B6CF} = {92E3DA35-13B1-47B8-B0B6-066AD0E1B6CF}
+		{F20CEED3-B29D-4F8B-BFC6-4AF4AC9E979F} = {F20CEED3-B29D-4F8B-BFC6-4AF4AC9E979F}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationAdherence.Domain", "MedicationAdherence.Domain\MedicationAdherence.Domain.csproj", "{11E65571-BA13-4F42-8B8A-114CAF1EA3A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationAdherence.Application", "MedicationAdherence.Application\MedicationAdherence.Application.csproj", "{F20CEED3-B29D-4F8B-BFC6-4AF4AC9E979F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MedicationAdherence.Infrastructure", "MedicationAdherence.Infrastructure\MedicationAdherence.Infrastructure.csproj", "{92E3DA35-13B1-47B8-B0B6-066AD0E1B6CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,18 @@ Global
 		{0CBD66D8-ABFD-479B-8372-389B126DC1FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CBD66D8-ABFD-479B-8372-389B126DC1FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CBD66D8-ABFD-479B-8372-389B126DC1FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E65571-BA13-4F42-8B8A-114CAF1EA3A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E65571-BA13-4F42-8B8A-114CAF1EA3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E65571-BA13-4F42-8B8A-114CAF1EA3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E65571-BA13-4F42-8B8A-114CAF1EA3A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F20CEED3-B29D-4F8B-BFC6-4AF4AC9E979F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F20CEED3-B29D-4F8B-BFC6-4AF4AC9E979F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F20CEED3-B29D-4F8B-BFC6-4AF4AC9E979F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F20CEED3-B29D-4F8B-BFC6-4AF4AC9E979F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92E3DA35-13B1-47B8-B0B6-066AD0E1B6CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92E3DA35-13B1-47B8-B0B6-066AD0E1B6CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92E3DA35-13B1-47B8-B0B6-066AD0E1B6CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92E3DA35-13B1-47B8-B0B6-066AD0E1B6CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

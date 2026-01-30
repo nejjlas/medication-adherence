@@ -1,7 +1,8 @@
 ﻿using MediatR;
 using MedicationAdherence.Api.Dtos;
-using MedicationAdherence.Api.Modules.Doses;
+using MedicationAdherence.Application.Modules.Doses;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace MedicationAdherence.Api.Controllers
 {
