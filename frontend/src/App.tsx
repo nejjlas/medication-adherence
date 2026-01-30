@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import { DoseToday } from "./features/adherance/DoseToday";
+import { DoseHistory, type DoseEvent } from "./features/adherance/DoseHistory";
+import { Stats } from "./features/adherance/Stats";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [events, setEvents] = useState<DoseEvent[]>([]);
+
+  function addEvent(e: DoseEvent) {
+    setEvents((prev) => [e, ...prev]);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div
+      style={{
+        fontFamily: "system-ui",
+        padding: 24,
+        maxWidth: 900,
+        margin: "0 auto",
+      }}
+    >
+      <h1>Medication Adherence</h1>
 
-export default App
+      <section style={{ marginTop: 24 }}>
+        <h2>Today's reminders</h2>
+        <DoseToday onConfirmed={addEvent} />
+      </section>
+
+      <section style={{ marginTop: 24 }}>
+        <h2>History</h2>
+        <DoseHistory events={events} />
+      </section>
+
+      <section style={{ marginTop: 24 }}>
+        <h2>Stats</h2>
+        <Stats events={events} />
+      </section>
+    </div>
+  );
+}
